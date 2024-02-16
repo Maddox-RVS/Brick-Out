@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "+GdloCUigBAGKNaAhvwtH8qVKi75B3PsW8Pw9VBW3HK8jCL9qJ12xiMScKdSmVMTu4GDCd4W+nygGHK647YNHg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\rynvn\\Desktop\\Programs\\C# Programs\\BrickOut\\BrickOut.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\rynvn\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\rynvn\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,6 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Fonts/BrickFont.spritefont","C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/bin/DesktopGL/Content/Fonts/BrickFont.xnb","FontDescriptionProcessor","SpriteFontContent",2075,21535,0.2030585
+"C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Fonts/LivesFont.spritefont","C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/bin/DesktopGL/Content/Fonts/LivesFont.xnb","FontDescriptionProcessor","SpriteFontContent",2076,70687,0.4817205
+"C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Textures/Ball.png","C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/bin/DesktopGL/Content/Textures/Ball.xnb","TextureProcessor","Texture2DContent",1219,262229,0.0208643
+"C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Textures/Brick.png","C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/bin/DesktopGL/Content/Textures/Brick.xnb","TextureProcessor","Texture2DContent",357,262229,0.0080145
+"C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Textures/Paddle.png","C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/bin/DesktopGL/Content/Textures/Paddle.xnb","TextureProcessor","Texture2DContent",195,65621,0.0042591

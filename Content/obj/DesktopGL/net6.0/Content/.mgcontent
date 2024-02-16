@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>DesktopGL</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Fonts/BrickFont.spritefont</File>
+    <File>C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Fonts/LivesFont.spritefont</File>
+    <File>C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Textures/Ball.png</File>
+    <File>C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Textures/Brick.png</File>
+    <File>C:/Users/rynvn/Desktop/Programs/C# Programs/BrickOut/Content/Textures/Paddle.png</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+  </DestFiles>
+</SourceFileCollection>
