@@ -12,9 +12,10 @@ namespace BrickOut
     public class Game1 : Game
     {
         private Dictionary<String, Texture2D> textures;
+        private ParallaxBackground parallaxBackground;
+        private Dictionary<String, SpriteFont> fonts;
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
-        private Dictionary<String, SpriteFont> fonts;
         private List<Brick> bricks;
         private Paddle paddle;
         private Random rnd;
@@ -24,6 +25,7 @@ namespace BrickOut
         public static Rectangle screenBounds;
         public static int score;
         public static int lives;
+        public static bool paddleHittingWall;
 
         public Game1()
         {
@@ -44,7 +46,9 @@ namespace BrickOut
             rnd = new Random();
 
             score = 0;
-            lives = 3;
+            lives = 5;
+
+            paddleHittingWall = false;
 
             base.Initialize();
         }
@@ -52,6 +56,15 @@ namespace BrickOut
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            parallaxBackground = new ParallaxBackground(
+                Content.Load<Texture2D>("Background\\landscape_1"),
+                Content.Load<Texture2D>("Background\\landscape_2"),
+                Content.Load<Texture2D>("Background\\landscape_3"),
+                Content.Load<Texture2D>("Background\\landscape_4"),
+                Content.Load<Texture2D>("Background\\landscape_5"),
+                Content.Load<Texture2D>("Background\\landscape_6")
+            );
 
             fonts = new Dictionary<string, SpriteFont>();
             fonts.Add("BrickFont", Content.Load<SpriteFont>("Fonts\\BrickFont"));
@@ -61,6 +74,7 @@ namespace BrickOut
             textures.Add("Brick", Content.Load<Texture2D>("Textures\\Brick"));
             textures.Add("Ball", Content.Load<Texture2D>("Textures\\Ball"));
             textures.Add("Paddle", Content.Load<Texture2D>("Textures\\Paddle"));
+            textures.Add("BrickPoweredGlint", Content.Load<Texture2D>("Animations\\PoweredSpriteSheet"));
 
             paddle = new Paddle(textures["Paddle"], 100, 20);
             ball = new Ball(textures["Ball"], 16, 16, paddle.getBounds().X, paddle.getBounds().Y, Ball.MovementState.FOLLOW_PADDLE, fonts["BrickFont"]);
@@ -72,7 +86,7 @@ namespace BrickOut
             {
                 for (int column = 0; column < columns; column++)
                 {
-                    int hitPoints = (int) (100f / (float)(row + 1));
+                    int hitPoints = 104 - (int) Math.Pow((row + 1) * 2, 2);
                     int width = (int) (screenBounds.Width / columns);
 
                     Brick.BrickType brickType = Brick.BrickType.NORMAL;
@@ -83,14 +97,23 @@ namespace BrickOut
                         hitPoints = 1;
                     }
 
-                    bricks.Add(new Brick(textures["Brick"], fonts["BrickFont"], width, width, width * column, width * row, hitPoints, brickType));
+                    bricks.Add(
+                        new Brick(textures["Brick"], 
+                        fonts["BrickFont"], 
+                        width, 
+                        width, 
+                        width * column, 
+                        width * row, 
+                        hitPoints, 
+                        brickType, 
+                        new AnimationSheet(textures["BrickPoweredGlint"], 100, 100, 100, 1000, spriteBatch.GraphicsDevice)));
                 }
             }
         }
 
         public void triggerGameEnd()
         {
-
+            Exit();
         }
 
         protected override void Update(GameTime gameTime)
@@ -98,8 +121,13 @@ namespace BrickOut
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            parallaxBackground.update();
+
             for (int i = bricks.Count - 1; i >= 0; i--)
+            {
+                bricks[i].update(gameTime);
                 if (bricks[i].getHitPoints() <= 0) bricks.Remove(bricks[i]);
+            }
 
             paddle.update();
             ball.update(paddle.getBounds(), bricks);
@@ -130,6 +158,7 @@ namespace BrickOut
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
+            parallaxBackground.draw(spriteBatch);
 
             foreach (Brick brick in bricks)
             {

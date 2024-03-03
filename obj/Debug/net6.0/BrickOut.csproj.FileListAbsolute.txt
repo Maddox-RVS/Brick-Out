@@ -28,3 +28,10 @@ C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Te
 C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Textures\Brick.xnb
 C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Textures\Paddle.xnb
 C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Fonts\LivesFont.xnb
+C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Background\landscape_1.xnb
+C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Background\landscape_2.xnb
+C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Background\landscape_3.xnb
+C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Background\landscape_4.xnb
+C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Background\landscape_5.xnb
+C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Background\landscape_6.xnb
+C:\Users\rynvn\Desktop\Programs\C# Programs\BrickOut\bin\Debug\net6.0\Content\Animations\PoweredSpriteSheet.xnb

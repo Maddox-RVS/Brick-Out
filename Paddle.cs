@@ -28,8 +28,8 @@ namespace BrickOut
             this.height = height;
             this.position = new Vector2((Game1.screenBounds.Width / 2) - (width / 2), Game1.screenBounds.Height - height - 20);
             speed = 10;
-            color = new Color(0, 0, 255);
-            hueShiftSpeed = 15.0f;
+            color = new Color(100, 0, 0);
+            hueShiftSpeed = 5.0f;
         }
 
         public Rectangle getBounds()
@@ -50,13 +50,17 @@ namespace BrickOut
                 position.X += speed;
             }
 
-            if (pos.X != position.X) color = new Color((int) (color.R + hueShiftSpeed), color.G, (int) (color.B - hueShiftSpeed));
-            else color = new Color((int) (color.R - hueShiftSpeed), color.G, (int) (color.B + hueShiftSpeed));
+            if (pos.X != position.X) color = new Color((int) (color.R + hueShiftSpeed), color.G, color.B);
+            else color = new Color((int) (color.R - hueShiftSpeed), color.G, color.B);
+            if (color.R < 200) color.R = 200;
         }
 
         public void checkWalls()
         {
+            float beforePos = position.X;
             position.X = Math.Clamp(position.X, 0, Game1.screenBounds.Width - width);
+            if (beforePos != position.X) Game1.paddleHittingWall = true;
+            else Game1.paddleHittingWall = false;
         }
 
         public void update()

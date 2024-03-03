@@ -20,6 +20,12 @@ namespace BrickOut
             BOUNCE
         }
 
+        public enum PowerUps
+        {
+            DUPLICATE,
+            MULTIHIT,
+        }
+
         private Texture2D texture;
         private Vector2 position;
         private Vector2 velocity;

@@ -21,6 +21,9 @@ namespace BrickOut
         private int hitPoints;
         private int maxHitPoints;
         private BrickType brickType;
+        private int damage;
+        private AnimationSheet poweredGlintAnimation;
+        private RandomHueShifter rndHueShifter;
 
         public enum BrickType
         {
@@ -28,7 +31,7 @@ namespace BrickOut
             POWERED
         }
 
-        public Brick(Texture2D texture, SpriteFont font, float width, float height, float x, float y, int hitPoints, BrickType brickType)
+        public Brick(Texture2D texture, SpriteFont font, float width, float height, float x, float y, int hitPoints, BrickType brickType, AnimationSheet poweredGlintAnimation)
         {
             this.texture = texture;
             this.font = font;
@@ -38,6 +41,9 @@ namespace BrickOut
             maxHitPoints = 100;
             this.hitPoints = Math.Clamp(hitPoints, 1, maxHitPoints);
             this.brickType = brickType;
+            damage = 5;
+            this.poweredGlintAnimation = poweredGlintAnimation;
+            rndHueShifter = new RandomHueShifter(100, 255, 1.0f);
         }
 
         public Rectangle getBounds()
@@ -74,23 +80,28 @@ namespace BrickOut
 
         public void isHit()
         {
-            hitPoints -= 5;
+            int damageDone = 0;
+            if (hitPoints - damage >= 0) damageDone = damage;
+            else damageDone = hitPoints;
+            hitPoints -= damageDone;
             Color brickColor = generateColor();
-            Game1.hoverTexts.Add(new HoverText(font, new Color(100 + brickColor.R, 100, 100 + brickColor.B), "+" + hitPoints, position.X, position.Y, 1.0f, HoverText.Direction.DOWN, 5.0f));
+            Game1.hoverTexts.Add(new HoverText(font, new Color(100 + brickColor.R, 100, 100 + brickColor.B), "+" + damageDone, position.X, position.Y, 1.0f, HoverText.Direction.DOWN, 5.0f));
 
-            if (brickType == BrickType.POWERED) { }
+            //if (brickType == BrickType.POWERED) { }
         }
 
-        public void update()
+        public void update(GameTime gameTime)
         {
-
+            poweredGlintAnimation.update(gameTime);
+            rndHueShifter.update();
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
-            Color brickColor = generateColor();
+            Color brickColor = brickType == BrickType.NORMAL ? generateColor() : rndHueShifter.getColor();
             spriteBatch.Draw(texture, getBounds(), brickColor);
-            spriteBatch.DrawString(font, hitPoints.ToString(), hitPointDisplayPos(), new Color(100 + brickColor.R, 100, 100 + brickColor.B));
+            if (brickType == BrickType.NORMAL) spriteBatch.DrawString(font, hitPoints.ToString(), hitPointDisplayPos(), new Color(100 + brickColor.R, 100, 100 + brickColor.B));
+            if (brickType == BrickType.POWERED) spriteBatch.Draw(poweredGlintAnimation.getFrame(), getBounds(), Color.White);
         }
     }
 }
