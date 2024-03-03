@@ -22,8 +22,8 @@ namespace BrickOut
 
         public enum PowerUps
         {
-            DUPLICATE,
-            MULTIHIT,
+            NONE,
+            MORE_DAMAGE
         }
 
         private Texture2D texture;
@@ -34,6 +34,8 @@ namespace BrickOut
         private MovementState movementState;
         private SpriteFont font;
         private Color color;
+        private PowerUps powerUp;
+        private float powerTimer;
         
         public Ball(Texture2D texture, float width, float height, float x, float y, MovementState movementState, SpriteFont font)
         {
@@ -46,6 +48,9 @@ namespace BrickOut
 
             this.font = font;
             color = Color.White;
+
+            powerUp = PowerUps.NONE;
+            powerTimer = 0.0f;
         }
 
         public Rectangle getBounds()
@@ -141,8 +146,16 @@ namespace BrickOut
 
         private void handleBrickCollisions(List<Brick> bricks)
         {
+            bool moreDamage = false;
+            if (powerUp == PowerUps.MORE_DAMAGE) moreDamage = true;
+
             foreach (Brick brick in bricks)
-                if (getBounds().Intersects(brick.getBounds())) brick.isHit();
+                if (getBounds().Intersects(brick.getBounds()))
+                {
+                    brick.isHit(moreDamage);
+                    if (brick.isPowered()) powerTimer = 15000;
+                }
+
             handleObjectCollisions(bricks.Select(brick => brick.getBounds()).ToArray());
         }
 
@@ -165,11 +178,16 @@ namespace BrickOut
             return movementState;
         }
 
-        public void update(Rectangle paddleBounds, List<Brick> bricks)
+        public void update(Rectangle paddleBounds, List<Brick> bricks, GameTime gameTime)
         {
             checkMovement(paddleBounds);
             handleObjectCollisions(paddleBounds);
             handleBrickCollisions(bricks);
+
+            powerTimer -= (float) gameTime.ElapsedGameTime.TotalMilliseconds;
+            powerTimer = Math.Clamp(powerTimer, 0, 1000000000);
+            if (powerTimer > 0.0) powerUp = PowerUps.MORE_DAMAGE;
+            else powerUp = PowerUps.NONE;
         }
 
         public void draw(SpriteBatch spriteBatch)

@@ -21,7 +21,6 @@ namespace BrickOut
         private int hitPoints;
         private int maxHitPoints;
         private BrickType brickType;
-        private int damage;
         private AnimationSheet poweredGlintAnimation;
         private RandomHueShifter rndHueShifter;
 
@@ -41,7 +40,6 @@ namespace BrickOut
             maxHitPoints = 100;
             this.hitPoints = Math.Clamp(hitPoints, 1, maxHitPoints);
             this.brickType = brickType;
-            damage = 5;
             this.poweredGlintAnimation = poweredGlintAnimation;
             rndHueShifter = new RandomHueShifter(100, 255, 1.0f);
         }
@@ -78,16 +76,22 @@ namespace BrickOut
             }
         }
 
-        public void isHit()
+        public void isHit(bool moreDamage)
         {
+            int damage = moreDamage ? 20 : 5;
             int damageDone = 0;
             if (hitPoints - damage >= 0) damageDone = damage;
             else damageDone = hitPoints;
             hitPoints -= damageDone;
             Color brickColor = generateColor();
             Game1.hoverTexts.Add(new HoverText(font, new Color(100 + brickColor.R, 100, 100 + brickColor.B), "+" + damageDone, position.X, position.Y, 1.0f, HoverText.Direction.DOWN, 5.0f));
+            Game1.score += damageDone;
+        }
 
-            //if (brickType == BrickType.POWERED) { }
+        public bool isPowered()
+        {
+            if (brickType == BrickType.POWERED) return true;
+            return false;
         }
 
         public void update(GameTime gameTime)

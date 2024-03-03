@@ -20,12 +20,15 @@ namespace BrickOut
         private Paddle paddle;
         private Random rnd;
         private Ball ball;
+        private bool hasLost;
 
         public static List<HoverText> hoverTexts;
         public static Rectangle screenBounds;
         public static int score;
         public static int lives;
         public static bool paddleHittingWall;
+
+        // This project was made using the C# monogame Framework started by Jose Antonio Farias and Silver Sprite by Bill Reiss.
 
         public Game1()
         {
@@ -49,6 +52,8 @@ namespace BrickOut
             lives = 5;
 
             paddleHittingWall = false;
+
+            hasLost = false;
 
             base.Initialize();
         }
@@ -111,15 +116,13 @@ namespace BrickOut
             }
         }
 
-        public void triggerGameEnd()
-        {
-            Exit();
-        }
-
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
+            if (hasLost)
+                return;
 
             parallaxBackground.update();
 
@@ -130,7 +133,7 @@ namespace BrickOut
             }
 
             paddle.update();
-            ball.update(paddle.getBounds(), bricks);
+            ball.update(paddle.getBounds(), bricks, gameTime);
 
             for (int i = hoverTexts.Count - 1; i >= 0; i--)
                 if (hoverTexts[i].getAlpha() <= 0.0) hoverTexts.Remove(hoverTexts[i]);
@@ -148,7 +151,7 @@ namespace BrickOut
                 ball.setVelocity((float) (rnd.Next(3, 8) * dir), (float) (rnd.Next(3, 8) * dir));
             }
 
-            if (lives == 0) triggerGameEnd();
+            if (lives == 0) hasLost = true;
 
             base.Update(gameTime);
         }
@@ -168,10 +171,18 @@ namespace BrickOut
             foreach (HoverText hoverText in hoverTexts)
                 hoverText.draw(spriteBatch);
 
-            spriteBatch.DrawString(fonts["LivesFont"], "Lives: " + lives, new Vector2(10, screenBounds.Height - 30), Color.Red);
+            spriteBatch.DrawString(fonts["LivesFont"], "Score: " + score, new Vector2(10, screenBounds.Height - 30), Color.Red);
+            spriteBatch.DrawString(fonts["LivesFont"], "Lives: " + lives, new Vector2(screenBounds.Width - 130, screenBounds.Height - 30), Color.Red);
 
             paddle.draw(spriteBatch);
             ball.draw(spriteBatch);
+
+            if (hasLost)
+            {
+                 spriteBatch.DrawString(fonts["LivesFont"], "You Lose", new Vector2((screenBounds.Width / 2) - 100, (screenBounds.Height / 2) + 5), Color.Blue);
+                 spriteBatch.DrawString(fonts["LivesFont"], "You Lose", new Vector2((screenBounds.Width / 2) - 100, screenBounds.Height / 2), Color.Red);
+            }
+                
 
             spriteBatch.End();
             base.Draw(gameTime);
